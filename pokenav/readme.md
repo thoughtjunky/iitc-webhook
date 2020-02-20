@@ -4,7 +4,7 @@ This plugin adds two links into the portal info screen to quickly copy to the cl
 
 Adds two buttons to the portal info pane to quick copy Meowth related commands to the clipboard.
 
-Depending on what button it will either copy 
-!addstop "`portal name`" `portal latitude` `portal longitude`
-or
+Depending on what button it will either copy\
+!addstop "`portal name`" `portal latitude` `portal longitude`\
+or\
 !addgym "`portal name`" `portal latitude` `portal longitude`
