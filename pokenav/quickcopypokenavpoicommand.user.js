@@ -1,16 +1,21 @@
 // ==UserScript==
-// @id quickCopyPokeNav
-// @name IITC Plugin: Quick Copy PokeNav POI Command 
+// @id quickCopyPortalMeowth
+// @name IITC Plugin: Quick Copy Meowth POI Command 
 // @category Tweaks
-// @version 0.0.4
-//
+// @version 0.0.1
 // @namespace
-// @description Copies the command to add a Gym to PokeNav with one click
-// @author Forte
-// @namespace      https://pkmngots.com
-// @updateURL      https://github.com/pkmngots/iitc-plugins/raw/master/pokenav/quickcopypokenavpoicommand.user.js
-// @downloadURL    https://github.com/pkmngots/iitc-plugins/raw/master/pokenav/quickcopypokenavpoicommand.user.js
-// @match        https://intel.ingress.com/*
+// @description Copies the command to add a Gym to Meowth with one click
+// @author forked from Forte and Sunkast
+// @updateURL      https://github.com/typographynerd/iitc-plugins/raw/master/pokenav/quickcopypokenavpoicommand.user.js
+// @downloadURL    https://github.com/typographynerd/iitc-plugins/raw/master/pokenav/quickcopypokenavpoicommand.user.js
+// @include        https://*.ingress.com/intel*
+// @include        http://*.ingress.com/intel*
+// @match          https://*.ingress.com/intel*
+// @match          http://*.ingress.com/intel*
+// @include        https://*.ingress.com/mission/*
+// @include        http://*.ingress.com/mission/*
+// @match          https://*.ingress.com/mission/*
+// @match          http://*.ingress.com/mission/*
 // @grant          none
 // ==/UserScript==
 
@@ -49,8 +54,8 @@ function wrapper(plugin_info) {
   
     // Future functionality
     window.plugin.CopytoClipboard.addButton = function() {
-    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyPortalAssistBot()">PokeNav Gym Command</a></aside>');
-    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyAllData()">PokeNav PokeStop Command</a></aside>');
+    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyPortalAssistBot()">Meowth Gym Command</a></aside>');
+    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyAllData()">Meowth PokeStop Command</a></aside>');
     };
   
     window.plugin.CopytoClipboard.copyPortalAssistBot = function() {
@@ -60,13 +65,17 @@ function wrapper(plugin_info) {
       var p_lngE6 = portalData.lngE6;
       var p_lat =portalData.latE6 / 1E6;
       var p_lng = portalData.lngE6 / 1E6;
-  
+      var is_ex = document.getElementById('PogoGymEx');
   
       var convenientGoogleMapsURL = 'http://maps.google.com/?ll=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6 + '&q=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6;
       var convenientIntelURL= 'https://www.ingress.com/intel?ll=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6 + '&q=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6;
   
   
-      var PortalAssistBottext ='$create poi gym "' + p_name + '" ' + p_lat + ' ' + p_lng + '';
+       if(is_ex && is_ex.checked){
+	  var PortalAssistBottext ='!addexraidgym "' + p_name + '" ' + p_lat + ' ' + p_lng + '';
+  }
+	else
+      {var PortalAssistBottext ='!addgym "' + p_name + '" ' + p_lat + ' ' + p_lng + '';}
   
       //$('body').append('<textarea class="portal-name-textarea">' + p_name + '&#10;' + convenientGoogleMapsURL + '&#10;' + convenientIntelURL + '&#10;' + PortalAssistBot + '</textarea>');
       //$('body').append('<textarea class="portal-name-textarea">' + PortalAssistBot + '&#10;' + p_name + '&#10;' + convenientGoogleMapsURL + '&#10;' + convenientIntelURL + '</textarea>');
@@ -91,9 +100,9 @@ function wrapper(plugin_info) {
       var convenientIntelURL= 'INTEL: https://www.ingress.com/intel?ll=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6 + '&q=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6;
       var applemapsurl = 'APPLE: https://maps.apple.com/?ll=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6 + '&q=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6;
   
-      var PortalAssistBottext ='$create poi gym "' + p_name + '" ' + p_lat + ' ' + p_lng + '';
+      var PortalAssistBottext ='!addgym "' + p_name + '" ' + p_lat + ' ' + p_lng + '';
   
-      $('body').append('<textarea class="portal-name-textarea">' + '$create poi pokestop "' + p_name + '" ' + p_lat + ' ' + p_lng + '</textarea>');
+      $('body').append('<textarea class="portal-name-textarea">' + '!addstop "' + p_name + '" ' + p_lat + ' ' + p_lng + '</textarea>');
       $('.portal-name-textarea').select();
       document.execCommand('copy');
       $('.portal-summary-textarea').remove();
@@ -131,4 +140,4 @@ function wrapper(plugin_info) {
   // Add some content to the script element
   script.appendChild(textContent);
   // Finally, inject it... wherever.
-  (document.body || document.head || document.documentElement).appendChild(script); 
+  (document.body || document.head || document.documentElement).appendChild(script);
