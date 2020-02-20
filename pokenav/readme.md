@@ -1,8 +1,10 @@
-This plugin adds two links into the portal info screen to quickly copy to the clipboard the command to add the selected portal to your pokenav POI database. More detailed readme coming... eventually... 
+**Not Yet Updated** so does not function as described. That is the eventual goal!
 
-Adds two buttons to the portal info pane to quick copy pokenav related commands to the clipboard.
+This plugin adds two links into the portal info screen to quickly copy to the clipboard the command to add the selected portal to your Meowth POI database.
 
-Depending on what button it'll either copy 
-$create poi pokestop "`portal name`" `portal latitude` `portal longitude`
+Adds two buttons to the portal info pane to quick copy Meowth related commands to the clipboard.
+
+Depending on what button it will either copy 
+!addstop "`portal name`" `portal latitude` `portal longitude`
 or
-$create poi gym "`portal name`" `portal latitude` `portal longitude`
+!addgym "`portal name`" `portal latitude` `portal longitude`
