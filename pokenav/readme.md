@@ -4,9 +4,10 @@ This is a Tampermonkey script that was originally developed by [Forte](https://g
 
 The script adds two buttons to the portal info pane to quick copy PokeNav related commands to the clipboard.
 
-Depending on what button is selected,  it will either copy\
-$create poi pokestop "`portal name`" `portal latitude` `portal longitude`\
-or\
-$create poi gym "`portal name`" `portal latitude` `portal longitude`\
-or\
-$create poi gym "`portal name`" `portal latitude` `portal longitude` "`ex_eligible: 1`"\
+Depending on what button is selected, it will either copy\
+  $create poi pokestop "`portal name`" `portal latitude` `portal longitude`\
+    or\
+  $create poi gym "`portal name`" `portal latitude` `portal longitude`\
+    or\
+  $create poi gym "`portal name`" `portal latitude` `portal longitude` "`ex_eligible: 1`"\
+      *if gym is marked as EX eligible*
