@@ -1,2 +1,2 @@
-# iitc-plugins
-This repo is for hosting IITC plugins that we make/distribute. We'll write a better readme... eventually... 
+# IITC-plugin
+This is a fork of Forte's PokeNav Quick Copy POI plugin for the Ingress Map. Planning to develop it to provide a similar function for Meowth 3.0. 
