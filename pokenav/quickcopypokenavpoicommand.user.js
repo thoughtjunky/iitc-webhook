@@ -14,6 +14,7 @@
 // @include        http://*.ingress.com/mission/*
 // @match          https://*.ingress.com/mission/*
 // @match          http://*.ingress.com/mission/*
+// @match          https://intel.ingress.com/*
 // @grant          none
 // ==/UserScript==
 
@@ -138,4 +139,4 @@ function wrapper(plugin_info) {
   // Add some content to the script element
   script.appendChild(textContent);
   // Finally, inject it... wherever.
-  (document.body || document.head || document.documentElement).appendChild(script); 
+  (document.body || document.head || document.documentElement).appendChild(script);
