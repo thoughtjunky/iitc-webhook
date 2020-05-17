@@ -14,7 +14,7 @@ and replace with your webhook URL.
 
 Check out this [page](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=1) if you need help making a webhook URL for your #pokenav channel.
 
-If you wish, you can customize the webhook's name and avatar by changing these paramters:
+If you wish, you can customize the webhook's name and avatar by changing these parameters:
 ```
 var params = {
         username: "IngressMapper",
