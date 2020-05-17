@@ -1,10 +1,10 @@
 // ==UserScript==
 // @id quickCopyPortalnameplus
-// @name IITC Plugin: Quick Copy PokeNav POI Command
+// @name IITC Plugin: Webhook PokeNav POI Command
 // @category Tweaks
 // @version 0.0.3
 // @namespace
-// @description Copies the command to add a Gym to PokeNav with one click
+// @description Sends command to add a Gym to PokeNav with one click
 // @author Forte
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
@@ -46,15 +46,15 @@ function wrapper(plugin_info) {
       var titleCSS = '.title{cursor:pointer;}';
       $('head').append("<style>" + titleCSS + "</style>");
 
-      $('body').append("<div class='QCPNotification' style='display:none'>Data Copied</div>");
+      $('body').append("<div class='QCPNotification' style='display:none'>Webhook Sent</div>");
 
       window.addHook('portalDetailsUpdated', window.plugin.CopytoClipboard.addButton);
     };
 
     // Future functionality
     window.plugin.CopytoClipboard.addButton = function() {
-    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyPortalAssistBot()">PokeNav Gym Command</a></aside>');
-    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyAllData()">PokeNav PokeStop Command</a></aside>');
+    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyPortalAssistBot()">PokeNav Gym Webhook Command</a></aside>');
+    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyAllData()">PokeNav PokeStop Webhook Command</a></aside>');
     };
 
     window.plugin.CopytoClipboard.copyPortalAssistBot = function() {
@@ -79,10 +79,19 @@ function wrapper(plugin_info) {
       //$('body').append('<textarea class="portal-name-textarea">' + p_name + '&#10;' + convenientGoogleMapsURL + '&#10;' + convenientIntelURL + '&#10;' + PortalAssistBot + '</textarea>');
       //$('body').append('<textarea class="portal-name-textarea">' + PortalAssistBot + '&#10;' + p_name + '&#10;' + convenientGoogleMapsURL + '&#10;' + convenientIntelURL + '</textarea>');
 
-      $('body').append('<textarea class="portal-name-textarea">' + PortalAssistBottext + '</textarea>');
-      $('.portal-name-textarea').select();
-      document.execCommand('copy');
-      $('.portal-summary-textarea').remove();
+      var request = new XMLHttpRequest();
+      request.open("POST", "https://discordapp.com/api/webhooks/REPLACE_WITH_WEBHOOK_URL");
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var params = {
+        username: "PokeNav Map Bot",
+        avatar_url: "",
+        content: PortalAssistBottext
+      }
+
+      request.send(JSON.stringify(params));
+
       $('.QCPNotification').fadeIn(400).delay(3000).fadeOut(400);
     };
 
@@ -99,12 +108,21 @@ function wrapper(plugin_info) {
       var convenientIntelURL= 'INTEL: https://www.ingress.com/intel?ll=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6 + '&q=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6;
       var applemapsurl = 'APPLE: https://maps.apple.com/?ll=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6 + '&q=' + p_latE6 / 1E6 + ',' + p_lngE6 / 1E6;
 
-      var PortalAssistBottext ='$create poi gym "' + p_name + '" ' + p_lat + ' ' + p_lng + '';
+      var PortalAssistBottext ='$create poi pokestop "' + p_name + '" ' + p_lat + ' ' + p_lng + '';
 
-      $('body').append('<textarea class="portal-name-textarea">' + '$create poi pokestop "' + p_name + '" ' + p_lat + ' ' + p_lng + '</textarea>');
-      $('.portal-name-textarea').select();
-      document.execCommand('copy');
-      $('.portal-summary-textarea').remove();
+      var request = new XMLHttpRequest();
+      request.open("POST", "https://discordapp.com/api/webhooks/REPLACE_WITH_WEBHOOK_URL");
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var params = {
+        username: "PokeNav Map Bot",
+        avatar_url: "",
+        content: PortalAssistBottext
+      }
+
+      request.send(JSON.stringify(params));
+
       $('.QCPNotification').fadeIn(400).delay(3000).fadeOut(400);
     };
 
