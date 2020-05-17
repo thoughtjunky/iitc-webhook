@@ -6,8 +6,6 @@
 // @namespace
 // @description Sends command to add a Gym to PokeNav with one click
 // @author forked from Forte and Sunkast
-// @updateURL      https://github.com/typographynerd/iitc-plugins/blob/webhook/pokenav/quickcopypokenavpoicommand.user.js
-// @downloadURL    https://github.com/typographynerd/iitc-plugins/blob/webhook/pokenav/quickcopypokenavpoicommand.user.js
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
 // @match          https://*.ingress.com/intel*
