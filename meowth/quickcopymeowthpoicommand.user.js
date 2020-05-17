@@ -6,8 +6,8 @@
 // @namespace
 // @description Copies the command to add a Gym to Meowth with one click
 // @author forked from Forte and Sunkast
-// @updateURL      https://github.com/typographynerd/iitc-plugins/raw/master/pokenav/quickcopypokenavpoicommand.user.js
-// @downloadURL    https://github.com/typographynerd/iitc-plugins/raw/master/pokenav/quickcopypokenavpoicommand.user.js
+// @updateURL      https://github.com/typographynerd/iitc-plugins/raw/master/meowth/quickcopypokenavpoicommand.user.js
+// @downloadURL    https://github.com/typographynerd/iitc-plugins/raw/master/meowth/quickcopypokenavpoicommand.user.js
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
 // @match          https://*.ingress.com/intel*
@@ -29,10 +29,10 @@ function wrapper(plugin_info) {
     if (typeof window.plugin !== 'function') window.plugin = function() {};
 
     // Use own namespace for plugin
-    window.plugin.CopytoClipboard = function() {};
+    window.plugin.CopytoClipboardMeowth = function() {};
 
     // Name of the IITC build for first-party plugins
-    plugin_info.buildName = 'CopytoClipboard';
+    plugin_info.buildName = 'CopytoClipboardMeowth';
 
     // Datetime-derived version of the plugin
     plugin_info.dateTimeVersion = '20190101000000';
@@ -50,16 +50,16 @@ function wrapper(plugin_info) {
 
       $('body').append("<div class='QCPNotification' style='display:none'>Data Copied</div>");
 
-      window.addHook('portalDetailsUpdated', window.plugin.CopytoClipboard.addButton);
+      window.addHook('portalDetailsUpdated', window.plugin.CopytoClipboardMeowth.addButton);
     };
 
     // Future functionality
-    window.plugin.CopytoClipboard.addButton = function() {
-    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyPortalAssistBot()">Meowth Gym Command</a></aside>');
-    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyAllData()">Meowth PokeStop Command</a></aside>');
+    window.plugin.CopytoClipboardMeowth.addButton = function() {
+    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboardMeowth.copyPortalAssistBot()">Meowth Gym Command</a></aside>');
+    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboardMeowth.copyAllData()">Meowth PokeStop Command</a></aside>');
     };
 
-    window.plugin.CopytoClipboard.copyPortalAssistBot = function() {
+    window.plugin.CopytoClipboardMeowth.copyPortalAssistBot = function() {
       var portalData = window.portals[window.selectedPortal].options.data;
       var p_name = portalData.title;
       var p_latE6 = portalData.latE6;
@@ -88,7 +88,7 @@ function wrapper(plugin_info) {
       $('.QCPNotification').fadeIn(400).delay(3000).fadeOut(400);
     };
 
-      window.plugin.CopytoClipboard.copyAllData = function() {
+      window.plugin.CopytoClipboardMeowth.copyAllData = function() {
       var portalData = window.portals[window.selectedPortal].options.data;
       var p_name = portalData.title;
       var p_latE6 = portalData.latE6;
