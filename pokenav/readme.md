@@ -7,8 +7,12 @@ This script took this concept one step further, but sending the PokeNav POI comm
 Like the script by Sunkast, if the gym is marked as an EX eligible gym, it will also add the modifier to tag it as ex_eligible in PokeNav.
 
 You will need to add the full URL for your Discord webhook in **two** places. Search for
-`request.open("POST", "https://discordapp.com/api/webhooks/REPLACE_WITH_WEBHOOK_URL");`
-and replace `https://discordapp.com/api/webhooks/REPLACE_WITH_WEBHOOK_URL` with your webhook URL. Check out this [page](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=1) if you need help making a webhook URL for your #pokenav channel.
+```
+request.open("POST", "https://discordapp.com/api/webhooks/REPLACE_WITH_WEBHOOK_URL");
+``
+and replace with your webhook URL.
+
+Check out this [page](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=1) if you need help making a webhook URL for your #pokenav channel.
 
 If you wish, you can customize the webhook's name and avatar by changing these paramters:
 ```
