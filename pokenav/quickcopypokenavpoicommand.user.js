@@ -2,10 +2,12 @@
 // @id quickCopyPortalnameplus
 // @name IITC Plugin: Webhook PokeNav POI Command
 // @category Tweaks
-// @version 0.0.3
+// @version 0.0.1
 // @namespace
 // @description Sends command to add a Gym to PokeNav with one click
-// @author Forte
+// @author forked from Forte and Sunkast
+// @updateURL      https://github.com/typographynerd/iitc-plugins/blob/webhook/pokenav/quickcopypokenavpoicommand.user.js
+// @downloadURL    https://github.com/typographynerd/iitc-plugins/blob/webhook/pokenav/quickcopypokenavpoicommand.user.js
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
 // @match          https://*.ingress.com/intel*
@@ -27,10 +29,10 @@ function wrapper(plugin_info) {
     if (typeof window.plugin !== 'function') window.plugin = function() {};
 
     // Use own namespace for plugin
-    window.plugin.CopytoClipboard = function() {};
+    window.plugin.SendToWebhook = function() {};
 
     // Name of the IITC build for first-party plugins
-    plugin_info.buildName = 'CopytoClipboard';
+    plugin_info.buildName = 'SendToWebhook';
 
     // Datetime-derived version of the plugin
     plugin_info.dateTimeVersion = '20190101000000';
@@ -48,16 +50,16 @@ function wrapper(plugin_info) {
 
       $('body').append("<div class='QCPNotification' style='display:none'>Webhook Sent</div>");
 
-      window.addHook('portalDetailsUpdated', window.plugin.CopytoClipboard.addButton);
+      window.addHook('portalDetailsUpdated', window.plugin.SendToWebhook.addButton);
     };
 
     // Future functionality
-    window.plugin.CopytoClipboard.addButton = function() {
-    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyPortalAssistBot()">PokeNav Gym Webhook Command</a></aside>');
-    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.CopytoClipboard.copyAllData()">PokeNav PokeStop Webhook Command</a></aside>');
+    window.plugin.SendToWebhook.addButton = function() {
+    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.SendToWebhook.copyPortalAssistBot()">PokeNav Gym Webhook Command</a></aside>');
+    $('.linkdetails').append('<aside><a href="#" onclick="window.plugin.SendToWebhook.copyAllData()">PokeNav PokeStop Webhook Command</a></aside>');
     };
 
-    window.plugin.CopytoClipboard.copyPortalAssistBot = function() {
+    window.plugin.SendToWebhook.copyPortalAssistBot = function() {
       var portalData = window.portals[window.selectedPortal].options.data;
       var p_name = portalData.title;
       var p_latE6 = portalData.latE6;
@@ -95,7 +97,7 @@ function wrapper(plugin_info) {
       $('.QCPNotification').fadeIn(400).delay(3000).fadeOut(400);
     };
 
-      window.plugin.CopytoClipboard.copyAllData = function() {
+      window.plugin.SendToWebhook.copyAllData = function() {
       var portalData = window.portals[window.selectedPortal].options.data;
       var p_name = portalData.title;
       var p_latE6 = portalData.latE6;
