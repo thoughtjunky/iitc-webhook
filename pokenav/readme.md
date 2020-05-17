@@ -1,13 +1,11 @@
-**Original PokeNav Script**
+**Quick Add PokeNav POI by Webhook Script**
 
-This is a Tampermonkey script that was originally developed by [Forte](https://github.com/pkmngots/iitc-plugins) and subsequently modified by [Sunkast](https://gist.github.com/sunkast/f38961398f91b7a31e4d29e46dd1264a). This plugin adds two links into the portal info screen to quickly copy to the clipboard the command to add the selected portal to your PokeNav POI database. If the gym is marked as an EX eligible gym, it will also add the modifier to tag it as ex_eligible in PokeNav.
+This is a Tampermonkey script that was originally developed by [Forte](https://github.com/pkmngots/iitc-plugins) and subsequently modified by [Sunkast](https://gist.github.com/sunkast/f38961398f91b7a31e4d29e46dd1264a). The original script added two links into the portal info screen to quickly copy to the clipboard the command to add the selected portal to your PokeNav POI database.
 
-The script adds two buttons to the portal info pane to quick copy PokeNav related commands to the clipboard.
+This script took this concept one step further, but sending the PokeNav POI command directly to your #PokeNav channel, using a Discord webhook.
 
-Depending on what button is selected, it will either copy\
-  $create poi pokestop "`portal name`" `portal latitude` `portal longitude`\
-    or\
-  $create poi gym "`portal name`" `portal latitude` `portal longitude`\
-    or\
-  $create poi gym "`portal name`" `portal latitude` `portal longitude` "`ex_eligible: 1`"\
-      *if gym is marked as EX eligible*
+Like the script by Sunkast, if the gym is marked as an EX eligible gym, it will also add the modifier to tag it as ex_eligible in PokeNav.
+
+You will need to add the full URL for your Discord webhook.
+
+Use this script at your own risk! I am not a Javascript programmer (as anyone can quickly see!) I simply took some information from the helpful [webpage](https://dev.to/oskarcodes/send-automated-discord-messages-through-webhooks-using-javascript-1p01) by [Oskar Codes](https://github.com/oskar-codes) and plugged it into the existing script. It seems to work but I'd happily take any suggestions from people who know what they are doing!
