@@ -42,13 +42,13 @@ function wrapper(plugin_info) {
 
     // The entry point for this plugin.
     function setup() {
-      var QCPNotifcation = '.QCPNotification{width:200px;height:20px;height:auto;position:absolute;left:50%;margin-left:-100px;top:20px;z-index:10000;background-color: #383838;color: #F0F0F0;font-family: Calibri;font-size: 20px;padding:10px;text-align:center;border-radius: 2px;-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);}';
-      $('head').append("<style>" + QCPNotifcation + "</style>");
+      var QCPNotifcationM = '.QCPNotificationM{width:200px;height:20px;height:auto;position:absolute;left:50%;margin-left:-100px;top:20px;z-index:10000;background-color: #383838;color: #F0F0F0;font-family: Calibri;font-size: 20px;padding:10px;text-align:center;border-radius: 2px;-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);}';
+      $('head').append("<style>" + QCPNotifcationM + "</style>");
 
       var titleCSS = '.title{cursor:pointer;}';
       $('head').append("<style>" + titleCSS + "</style>");
 
-      $('body').append("<div class='QCPNotification' style='display:none'>Data Copied</div>");
+      $('body').append("<div class='QCPNotificationM' style='display:none'>Data Copied</div>");
 
       window.addHook('portalDetailsUpdated', window.plugin.CopytoClipboardMeowth.addButton);
     };
@@ -85,7 +85,7 @@ function wrapper(plugin_info) {
       $('.portal-name-textarea').select();
       document.execCommand('copy');
       $('.portal-summary-textarea').remove();
-      $('.QCPNotification').fadeIn(400).delay(3000).fadeOut(400);
+      $('.QCPNotificationM').fadeIn(400).delay(3000).fadeOut(400);
     };
 
       window.plugin.CopytoClipboardMeowth.copyAllData = function() {
@@ -107,7 +107,7 @@ function wrapper(plugin_info) {
       $('.portal-name-textarea').select();
       document.execCommand('copy');
       $('.portal-summary-textarea').remove();
-      $('.QCPNotification').fadeIn(400).delay(3000).fadeOut(400);
+      $('.QCPNotificationM').fadeIn(400).delay(3000).fadeOut(400);
     };
 
     // Add an info property for IITC's plugin system
