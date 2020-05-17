@@ -85,8 +85,8 @@ function wrapper(plugin_info) {
       request.setRequestHeader('Content-type', 'application/json');
 
       var params = {
-        username: "PokeNav Map Bot",
-        avatar_url: "",
+        username: "IngressMapper",
+        avatar_url: "https://cdn.discordapp.com/attachments/533291273914941460/711554807906959411/IngressMapper.jpg",
         content: PortalAssistBottext
       }
 
@@ -116,8 +116,8 @@ function wrapper(plugin_info) {
       request.setRequestHeader('Content-type', 'application/json');
 
       var params = {
-        username: "PokeNav Map Bot",
-        avatar_url: "",
+        username: "IngressMapper",
+        avatar_url: "https://cdn.discordapp.com/attachments/533291273914941460/711554807906959411/IngressMapper.jpg",
         content: PortalAssistBottext
       }
 
