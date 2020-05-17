@@ -9,7 +9,7 @@ Like the script by Sunkast, if the gym is marked as an EX eligible gym, it will 
 You will need to add the full URL for your Discord webhook in **two** places. Search for
 ```
 request.open("POST", "https://discordapp.com/api/webhooks/REPLACE_WITH_WEBHOOK_URL");
-``
+```
 and replace with your webhook URL.
 
 Check out this [page](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=1) if you need help making a webhook URL for your #pokenav channel.
