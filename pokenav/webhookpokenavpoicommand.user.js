@@ -66,6 +66,7 @@ function wrapper(plugin_info) {
       buttonWebhook.title = 'Configuration for POI Webhook';
       buttonWebhook.addEventListener('click', thisPlugin.showSettingsDialog);
       toolbox.appendChild(buttonWebhook);
+      loadSettings();
     };
     thisPlugin.showSettingsDialog = function() {
         const html =
