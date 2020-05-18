@@ -7,10 +7,10 @@ This repository has two scripts, which are to be used with [Ingress Intel Total 
 
 Both plugins are forks of [Forte's PokeNav Quick Copy POI plugin](https://github.com/pkmngots/iitc-plugins) for the IITC Map. Additional code was taken from [Sunkast's version](https://gist.github.com/sunkast/f38961398f91b7a31e4d29e46dd1264a) of the same script. The original script was adapted to add two different use cases:
 
-1. For Meowth bot, the script adds a links to the portal information, allowing you add either the !addgym or !addstop commands to the clipboard. You can then paste the command in your bot command channel, to add the POI to Meowth.
+1. For Meowth bot, the script adds a links to the portal information, allowing you add either the `!addstop` or`!addgym` commands to the clipboard. If you have marked a gym as EX-eligible, it will use the `!addexraidgym` command. You can then paste the command in your bot command channel, to add the POI to Meowth.
 ![Portal Info with Meowth Script running](https://i.imgur.com/IInhyh0.png)
 
-2. For PokeNav, clicking on the link will send either the $create poi gym or $create poi stop command directly to your #pokenav moderation channel via a webhook.
+2. For PokeNav, clicking on the link will send either the `$create poi pokestop` or `$create poi gym` command directly to your #pokenav moderation channel via a webhook. If you have marked a gym as EX-eligible, it will add `"ex_eligible: 1"` to the command.
 ![Portal Info with PokeNav Script running](https://i.imgur.com/w3t6ffF.png)
 
 Currently, the Meowth functionality is available in the master branch. The PokeNav webhook functionality is in the webhook branch. It will be moved to the master branch in the near future.
