@@ -9,9 +9,12 @@ Like the script by Sunkast, if the gym is marked as an EX eligible gym, it will 
 ## Adding your webhook URL
 
 You will need to add the full URL for your Discord webhook. Click on **POI Webhook Settings** to bring up the configuration dialog box.
+
 ![POI Webhook Settings link](https://i.imgur.com/CymRSyL.png)
 
+
 In the settings, paste in the webhook URL for your #pokenav channel.
+
 ![Webhook Coniguration](https://i.imgur.com/xQ8fsKS.png)
 
 Check out this [page](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=1) if you need help making a webhook URL for your #pokenav channel.
