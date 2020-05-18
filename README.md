@@ -22,7 +22,7 @@ Currently, the Meowth functionality is available in the master branch. The PokeN
 3. Ingress Intel Total Conversion (IITC)
 4. PoGo Tools script
 
-You can find instructions for all of these [here](https://gitlab.com/AlfonsoML/pogo-s2).
+You can find instructions for all of these steps [here](https://gitlab.com/AlfonsoML/pogo-s2).
 
 ### Installing the Meowth or PokeNav plugin_info
 To install these scripts, follow the README.md for the respective script.
