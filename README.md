@@ -21,6 +21,7 @@ Currently, the Meowth functionality is available in the master branch. The PokeN
 2. Tampermonkey extension
 3. Ingress Intel Total Conversion (IITC)
 4. PoGo Tools script
+
 You can find instructions for all of these [here](https://gitlab.com/AlfonsoML/pogo-s2).
 
 ### Installing the Meowth or PokeNav plugin_info
