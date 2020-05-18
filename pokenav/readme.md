@@ -28,4 +28,4 @@ Again, they are in **two places** so be sure to change them both.
 
 ## Friendly Reminder—I am not a programmer!
 
-Use this script at your own risk! I am not a Javascript programmer (as anyone can quickly see!) I simply took some information from the helpful [webpage](https://dev.to/oskarcodes/send-automated-discord-messages-through-webhooks-using-javascript-1p01) by [Oskar Codes](https://github.com/oskar-codes) and plugged it into the existing script. It seems to work but I'd happily take any suggestions from people who know what they are doing!
+Use this script at your own risk. I am not a Javascript programmer so I simply took some information from the helpful [webpage](https://dev.to/oskarcodes/send-automated-discord-messages-through-webhooks-using-javascript-1p01) by [Oskar Codes](https://github.com/oskar-codes) and plugged it into the existing script to get started. However, I am grateful to [tehstone](https://github.com/tehstone) who forked the script, cleaned up the code and added a settings dialog box. Great to have collaborators who know what they are doing!
