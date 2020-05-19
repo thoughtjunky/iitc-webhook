@@ -37,3 +37,5 @@ Adding a new POI to PokeNav is now just a click away.
 2. Click on **Create POI Command** and the command will be sent to your PokeNav channel as a webhook.
 
 ![Using the Plug-in](https://i.imgur.com/UXlKjyd.png)
+
+![Discord Command](https://i.imgur.com/0QxG0oU.png)
