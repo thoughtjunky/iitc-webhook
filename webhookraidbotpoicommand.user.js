@@ -1,11 +1,11 @@
 // ==UserScript==
 // @id quickCopyPortalnameplus
-// @name IITC Plugin: Webhook Kyogre POI Command
+// @name IITC Plugin: Webhook Raid Bot POI Command
 // @category Tweaks
 // @version 0.5.0
 // @namespace
-// @description Sends command to add a Gym to PokeNav with one click
-// @author tehstone. based on work by typographynerd, forked from Forte and Sunkast
+// @description Sends command to manage POIs to raid bot admin channel with one click
+// @author tehstone, typographynerd. forked from Forte and Sunkast
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
 // @match          https://*.ingress.com/intel*
