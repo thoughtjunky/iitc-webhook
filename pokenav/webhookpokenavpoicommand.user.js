@@ -58,11 +58,14 @@ function wrapper(plugin_info) {
 
   // The entry point for this plugin.
   function setup() {
-    var QCPNotifcation =
+
+    const QCPNotifcation =
       ".QCPNotification{width:200px;height:20px;height:auto;position:absolute;left:50%;margin-left:-100px;top:20px;z-index:10000;background-color: #383838;color: #F0F0F0;font-family: Calibri;font-size: 20px;padding:10px;text-align:center;border-radius: 2px;-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);}";
     $("head").append("<style>" + QCPNotifcation + "</style>");
 
-    var titleCSS = ".title{cursor:pointer;}";
+    const titleCSS = ".title{cursor:pointer;}";
+
+   
     $("head").append("<style>" + titleCSS + "</style>");
     $("body").append(
       "<div class='QCPNotification' style='display:none'>Webhook Sent</div>"
@@ -84,7 +87,10 @@ function wrapper(plugin_info) {
 
   thisPlugin.showSettingsDialog = function () {
     const html =
-              `<p><label for="textBotName">Bot Display Name</label><br><input type="text" id="textBotName" size="20" /></p>
+
+              `<p><label for="textBotPrefix">Bot Command Prefix</label><br><input type="text" id="textBotPrefix" size="10" /></p>
+               <p><label for="textBotName">Bot Display Name</label><br><input type="text" id="textBotName" size="20" /></p>
+
                <p><label for="textWebhookUrl">Webhook URL</label><br><input type="text" id="textWebhookUrl" size="40" /></p>
                <p><label for="textAvatarUrl">Avatar URL</label><br><input type="text" id="textAvatarUrl" size="40" /></p>
               `;
@@ -98,6 +104,14 @@ function wrapper(plugin_info) {
     });
 
     const div = container[0];
+
+    const textBotPrefixStr = div.querySelector("#textBotPrefix");
+    textBotPrefixStr.value = settings.botPrefix;
+    textBotPrefixStr.addEventListener("change", (e) => {
+      settings.botPrefix = textBotPrefixStr.value;
+      saveSettings();
+    });
+
     const textBotNameStr = div.querySelector("#textBotName");
     textBotNameStr.value = settings.botName;
     textBotNameStr.addEventListener("change", (e) => {
@@ -128,49 +142,45 @@ function wrapper(plugin_info) {
   };
 
   window.plugin.SendToWebhook.createGymCommand = function () {
-    var portalData = window.portals[window.selectedPortal].options.data;
-    var p_name = portalData.title;
-    var p_latE6 = portalData.latE6;
-    var p_lngE6 = portalData.lngE6;
-    var p_lat = portalData.latE6 / 1e6;
-    var p_lng = portalData.lngE6 / 1e6;
-    var is_ex = document.getElementById("PogoGymEx");
 
-    let PortalAssistBottext = '$create poi gym "' + p_name + '" ' + p_lat + " " + p_lng + "";
+    const portalData = window.portals[window.selectedPortal].options.data;
+    const { p_name, p_lat, p_lng } = getPortalData(portalData);
+    const is_ex = document.getElementById('PogoGymEx');
+
+    let commandMessageText = settings.botPrefix + 'create poi gym "' + p_name + '" ' + p_lat + " " + p_lng + "";
     if (is_ex && is_ex.checked) {
-      PortalAssistBottext += ' "ex_eligible: 1"';
+      commandMessageText += ' "ex_eligible: 1"';
     }
 
-    var request = new XMLHttpRequest();
-    request.open("POST", settings.webhookUrl);
-    request.setRequestHeader("Content-type", "application/json");
-    var params = {
-      username: "IngressMapper",
-      avatar_url:
-        "https://cdn.discordapp.com/attachments/533291273914941460/711554807906959411/IngressMapper.jpg",
-      content: PortalAssistBottext,
-    };
-    request.send(JSON.stringify(params));
-    $(".QCPNotification").fadeIn(400).delay(3000).fadeOut(400);
+    sendCommandToWebhook(commandMessageText);
   };
 
   window.plugin.SendToWebhook.createStopCommand = function () {
-    var portalData = window.portals[window.selectedPortal].options.data;
-    var p_name = portalData.title;
-    var p_latE6 = portalData.latE6;
-    var p_lngE6 = portalData.lngE6;
-    var p_lat = portalData.latE6 / 1e6;
-    var p_lng = portalData.lngE6 / 1e6;
+    const portalData = window.portals[window.selectedPortal].options.data;
+    const {p_name, p_lat, p_lng } = getPortalData(portalData);
 
-    var PortalAssistBottext =
-      '$create poi pokestop "' + p_name + '" ' + p_lat + " " + p_lng + "";
-    var request = new XMLHttpRequest();
+    const commandMessageText =
+      settings.botPrefix + 'create poi pokestop "' + p_name + '" ' + p_lat + " " + p_lng + "";
+    
+    sendCommandToWebhook(commandMessageText);
+  };
+
+  const getPortalData = function(portalData) {
+    return {
+      "p_name": portalData.title,
+      "p_lat": portalData.latE6 / 1e6,
+      "p_lng": portalData.lngE6 / 1e6,
+    };
+  }
+
+  const sendCommandToWebhook = function(messageText) {
+    let request = new XMLHttpRequest();
     request.open("POST", settings.webhookUrl);
     request.setRequestHeader("Content-type", "application/json");
-    var params = {
+    const params = {
       username: settings.botName,
       avatar_url: settings.avatarUrl,
-      content: PortalAssistBottext,
+      content: messageText,
     };
     request.send(JSON.stringify(params));
     $(".QCPNotification").fadeIn(400).delay(3000).fadeOut(400);
@@ -181,13 +191,16 @@ function wrapper(plugin_info) {
 
   // Make sure window.bootPlugins exists and is an array
   if (!window.bootPlugins) window.bootPlugins = [];
-  
+
   // Add our startup hook
   window.bootPlugins.push(setup);
 
   // If IITC has already booted, immediately run the 'setup' function
   if (window.iitcLoaded && typeof setup === "function") setup();
   const defaultSettings = {
+
+    botPrefix: "$",
+
     webhookUrl: "",
     botName: "IngressMapper",
     avatarUrl:
@@ -200,6 +213,7 @@ function wrapper(plugin_info) {
     createThrottledTimer("saveSettings", function () {
       localStorage[KEY_SETTINGS] = JSON.stringify(settings);
     });
+
   }
 
   function loadSettings() {
@@ -209,11 +223,15 @@ function wrapper(plugin_info) {
     } catch (e) {
       // eslint-disable-line no-empty
     }
+    if (!settings.botPrefix) {
+      settings.botPrefix = "$";
+    }
   }
 }
 // Create a script element to hold our content script
-var script = document.createElement("script");
-var info = {};
+let script = document.createElement("script");
+let info = {};
+
 
 // GM_info is defined by the assorted monkey-themed browser extensions
 // and holds information parsed from the script header.
@@ -226,7 +244,9 @@ if (typeof GM_info !== "undefined" && GM_info && GM_info.script) {
 }
 
 // Create a text node and our IIFE inside of it
-var textContent = document.createTextNode(
+
+let textContent = document.createTextNode(
+
   "(" + wrapper + ")(" + JSON.stringify(info) + ")"
 );
 
