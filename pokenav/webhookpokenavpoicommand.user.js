@@ -2,7 +2,7 @@
 // @id quickCopyPortalnameplus
 // @name IITC Plugin: Webhook PokeNav POI Command
 // @category Tweaks
-// @version 0.0.1
+// @version 0.2.0
 // @namespace
 // @description Sends command to add a Gym to PokeNav with one click
 // @author forked from Forte and Sunkast
@@ -58,14 +58,11 @@ function wrapper(plugin_info) {
 
   // The entry point for this plugin.
   function setup() {
-
     const QCPNotifcation =
       ".QCPNotification{width:200px;height:20px;height:auto;position:absolute;left:50%;margin-left:-100px;top:20px;z-index:10000;background-color: #383838;color: #F0F0F0;font-family: Calibri;font-size: 20px;padding:10px;text-align:center;border-radius: 2px;-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);}";
     $("head").append("<style>" + QCPNotifcation + "</style>");
 
     const titleCSS = ".title{cursor:pointer;}";
-
-   
     $("head").append("<style>" + titleCSS + "</style>");
     $("body").append(
       "<div class='QCPNotification' style='display:none'>Webhook Sent</div>"
@@ -87,10 +84,8 @@ function wrapper(plugin_info) {
 
   thisPlugin.showSettingsDialog = function () {
     const html =
-
               `<p><label for="textBotPrefix">Bot Command Prefix</label><br><input type="text" id="textBotPrefix" size="10" /></p>
                <p><label for="textBotName">Bot Display Name</label><br><input type="text" id="textBotName" size="20" /></p>
-
                <p><label for="textWebhookUrl">Webhook URL</label><br><input type="text" id="textWebhookUrl" size="40" /></p>
                <p><label for="textAvatarUrl">Avatar URL</label><br><input type="text" id="textAvatarUrl" size="40" /></p>
               `;
@@ -104,14 +99,12 @@ function wrapper(plugin_info) {
     });
 
     const div = container[0];
-
     const textBotPrefixStr = div.querySelector("#textBotPrefix");
     textBotPrefixStr.value = settings.botPrefix;
     textBotPrefixStr.addEventListener("change", (e) => {
       settings.botPrefix = textBotPrefixStr.value;
       saveSettings();
     });
-
     const textBotNameStr = div.querySelector("#textBotName");
     textBotNameStr.value = settings.botName;
     textBotNameStr.addEventListener("change", (e) => {
@@ -134,35 +127,45 @@ function wrapper(plugin_info) {
 
   window.plugin.SendToWebhook.addButton = function () {
     $(".linkdetails").append(
-      '<aside><a href="#" onclick="window.plugin.SendToWebhook.createGymCommand()">PokeNav Gym Webhook Command</a></aside>'
-    );
-    $(".linkdetails").append(
-      '<aside><a href="#" onclick="window.plugin.SendToWebhook.createStopCommand()">PokeNav PokeStop Webhook Command</a></aside>'
+      '<aside><a href="#" onclick="window.plugin.SendToWebhook.createPOICommand()">Create POI Command</a></aside>'
     );
   };
 
-  window.plugin.SendToWebhook.createGymCommand = function () {
-
+  window.plugin.SendToWebhook.createPOICommand = function () {
+    const poiType = getPoiType();
+    if (poiType == "none") {
+        alert("Please mark this POI as either a stop or gym and try again");
+        return;
+    }
     const portalData = window.portals[window.selectedPortal].options.data;
     const { p_name, p_lat, p_lng } = getPortalData(portalData);
-    const is_ex = document.getElementById('PogoGymEx');
+    const is_ex = document.getElementById("PogoGymEx");
 
-    let commandMessageText = settings.botPrefix + 'create poi gym "' + p_name + '" ' + p_lat + " " + p_lng + "";
-    if (is_ex && is_ex.checked) {
+    let commandMessageText = "";
+    if (poiType == "gym") {
+        commandMessageText =
+            settings.botPrefix + 'create poi gym "' + p_name + '" ' + p_lat + " " + p_lng + "";
+        if (is_ex && is_ex.checked) {
       commandMessageText += ' "ex_eligible: 1"';
+    }
+    } else {
+        commandMessageText =
+      settings.botPrefix + 'create poi pokestop "' + p_name + '" ' + p_lat + " " + p_lng + "";
     }
 
     sendCommandToWebhook(commandMessageText);
   };
 
-  window.plugin.SendToWebhook.createStopCommand = function () {
-    const portalData = window.portals[window.selectedPortal].options.data;
-    const {p_name, p_lat, p_lng } = getPortalData(portalData);
-
-    const commandMessageText =
-      settings.botPrefix + 'create poi pokestop "' + p_name + '" ' + p_lat + " " + p_lng + "";
-    
-    sendCommandToWebhook(commandMessageText);
+  const getPoiType = function() {
+    const gymEl = document.getElementsByClassName("pogoGym");
+    const stopEl = document.getElementsByClassName("pogoStop");
+    if (gymEl[0].className.includes("favorite")) {
+        return "gym";
+    }
+    else if (stopEl[0].className.includes("favorite")) {
+        return "stop";
+    }
+    return "none";
   };
 
   const getPortalData = function(portalData) {
@@ -198,9 +201,7 @@ function wrapper(plugin_info) {
   // If IITC has already booted, immediately run the 'setup' function
   if (window.iitcLoaded && typeof setup === "function") setup();
   const defaultSettings = {
-
     botPrefix: "$",
-
     webhookUrl: "",
     botName: "IngressMapper",
     avatarUrl:
@@ -213,7 +214,6 @@ function wrapper(plugin_info) {
     createThrottledTimer("saveSettings", function () {
       localStorage[KEY_SETTINGS] = JSON.stringify(settings);
     });
-
   }
 
   function loadSettings() {
@@ -232,7 +232,6 @@ function wrapper(plugin_info) {
 let script = document.createElement("script");
 let info = {};
 
-
 // GM_info is defined by the assorted monkey-themed browser extensions
 // and holds information parsed from the script header.
 if (typeof GM_info !== "undefined" && GM_info && GM_info.script) {
@@ -244,9 +243,7 @@ if (typeof GM_info !== "undefined" && GM_info && GM_info.script) {
 }
 
 // Create a text node and our IIFE inside of it
-
 let textContent = document.createTextNode(
-
   "(" + wrapper + ")(" + JSON.stringify(info) + ")"
 );
 
