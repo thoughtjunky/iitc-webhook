@@ -64,16 +64,23 @@ function wrapper(plugin_info) {
 
   // The entry point for this plugin.
   function setup() {
-    const QCPNotifcation =
-      ".QCPNotification{width:200px;height:20px;height:auto;position:absolute;left:50%;margin-left:-100px;top:20px;z-index:10000;background-color: #383838;color: #F0F0F0;font-family: Calibri;font-size: 20px;padding:10px;text-align:center;border-radius: 2px;-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);}";
-    $("head").append("<style>" + QCPNotifcation + "</style>");
+    const webhookNotification =
+      ".webhookNotifcation{width:200px;height:20px;height:auto;position:absolute;left:50%;margin-left:-100px;top:20px;z-index:10000;background-color: #383838;color: #F0F0F0;font-family: Calibri;font-size: 20px;padding:10px;text-align:center;border-radius: 2px;-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);}";
+    const copyNotification =
+      ".copyNotification{width:200px;height:20px;height:auto;position:absolute;left:50%;margin-left:-100px;top:20px;z-index:10000;background-color: #383838;color: #F0F0F0;font-family: Calibri;font-size: 20px;padding:10px;text-align:center;border-radius: 2px;-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);}";
+    $("head").append("<style>" + webhookNotification + "</style>");
+    $("head").append("<style>" + copyNotification + "</style>");
 
     const titleCSS = ".title{cursor:pointer;}";
     $("head").append("<style>" + titleCSS + "</style>");
 
     $("body").append(
-      "<div class='QCPNotification' style='display:none'>Webhook Sent</div>"
+      "<div class='webhookNotification' style='display:none'>Webhook Sent</div>"
     );
+    $("body").append(
+      "<div class='copyNotification' style='display:none'>Command Copied to Clipboard</div>"
+    );
+
 
     window.addHook(
       "portalDetailsUpdated",
@@ -192,7 +199,12 @@ function wrapper(plugin_info) {
         commandMessageText = commands.stop_create;
     }
 
-    sendCommandToWebhook(settings.botPrefix + commandMessageText);
+    if (settings.botType == "meowth") {
+      copyCommandToClipboard(settings.botPrefix + commandMessageText);
+    } else {
+      sendCommandToWebhook(settings.botPrefix + commandMessageText);
+    }
+
   };
 
   window.plugin.SendToWebhook.convertToGymCommand = function () {
@@ -305,8 +317,16 @@ function wrapper(plugin_info) {
       content: messageText,
     };
     request.send(JSON.stringify(params));
-    $(".QCPNotification").fadeIn(400).delay(3000).fadeOut(400);
+    $(".webhookNotification").fadeIn(400).delay(3000).fadeOut(400);
   };
+
+  const copyCommandToClipboard = function(messageText) {
+    $('body').append('<textarea class="portal-name-textarea">' + messageText + '</textarea>');
+    $('.portal-name-textarea').select();
+    document.execCommand('copy');
+    $('.portal-name-textarea').remove();
+    $(".copyNotification").fadeIn(400).delay(3000).fadeOut(400);
+  }
 
   // Add an info property for IITC's plugin system
   setup.info = plugin_info;
