@@ -2,8 +2,10 @@
 // @id quickCopyPortalnameplus
 // @name IITC Plugin: Webhook Raid Bot POI Command
 // @category Tweaks
-// @version 0.5.0
-// @namespace
+// @version 0.5.1
+// @namespace    https://github.com/typographynerd/iitc-plugins
+// @downloadURL  https://github.com/typographynerd/iitc-plugins/raw/master/webhookraidbotpoicommand.user.js
+// @homepageURL  https://github.com/typographynerd/iitc-plugins
 // @description Sends command to manage POIs to raid bot admin channel with one click
 // @author tehstone, typographynerd. forked from Forte and Sunkast
 // @include        https://*.ingress.com/intel*
