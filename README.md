@@ -20,5 +20,5 @@ The plugin originated from a fork of [Forte's PokeNav Quick Copy POI plugin](htt
 
 You can find instructions for all of these steps [here](https://gitlab.com/AlfonsoML/pogo-s2).
 
-### Installing the Meowth or PokeNav plugin_info
-*to be updated*
+### Installing and Using the Plugin
+Check out the instructions on the [wiki page](https://github.com/typographynerd/iitc-plugins/wiki/Using-the-plugin).
