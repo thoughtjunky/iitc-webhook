@@ -2,7 +2,7 @@
 // @id quickCopyPortalnameplus
 // @name IITC Plugin: Webhook Raid Bot POI Command
 // @category Tweaks
-// @version 0.6.0
+// @version 0.6.5
 // @namespace    https://github.com/typographynerd/iitc-plugins
 // @downloadURL  https://github.com/typographynerd/iitc-plugins/raw/master/webhookraidbotpoicommand.user.js
 // @homepageURL  https://github.com/typographynerd/iitc-plugins
@@ -169,12 +169,14 @@ function wrapper(plugin_info) {
     $(".linkdetails").append(
       '<br><aside><a href="#" onclick="window.plugin.SendToWebhook.createPOICommand()">Create POI Command</a></aside><br>'
     );
-    $(".linkdetails").append(
-      '<aside><a href="#" onclick="window.plugin.SendToWebhook.convertToGymCommand()">Convert to Gym Command</a></aside><br>'
-    );
-    $(".linkdetails").append(
-      '<aside><a href="#" onclick="window.plugin.SendToWebhook.markEXCommand()">Set Gym as EX Command</a></aside><br>'
-    );
+    if (settings.botType != "meowth") {
+      $(".linkdetails").append(
+        '<aside><a href="#" onclick="window.plugin.SendToWebhook.convertToGymCommand()">Convert to Gym Command</a></aside><br>'
+      );
+      $(".linkdetails").append(
+        '<aside><a href="#" onclick="window.plugin.SendToWebhook.markEXCommand()">Set Gym as EX Command</a></aside><br>'
+      );
+    }
     $(".linkdetails").append(
       '<aside><a href="#" onclick="window.plugin.SendToWebhook.getInfoCommand()">Get POI Info Command</a></aside><br>'
     );
@@ -241,10 +243,6 @@ function wrapper(plugin_info) {
   }
 
   window.plugin.SendToWebhook.getInfoCommand = function() {
-    if (settings.botType == "meowth") {
-      return;
-    }
-
     const poiType = getPoiType();
     if (poiType == "none") {
         alert("Please mark this POI as either a stop or gym and try again");
@@ -288,8 +286,8 @@ function wrapper(plugin_info) {
           "gym_create_ex": `addexraidgym "${p_name}" ${p_lat} ${p_lng}`,
           "mark_ex": ``,
           "convert_to_gym": ``,
-          "stop_info": ``,
-          "gym_info": ``
+          "stop_info": `whereis ${p_name}`,
+          "gym_info": `whereis ${p_name}`
         },
       "pokenav":
         {
