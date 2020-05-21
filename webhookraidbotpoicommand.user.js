@@ -2,7 +2,7 @@
 // @id quickCopyPortalnameplus
 // @name IITC Plugin: Webhook Raid Bot POI Command
 // @category Tweaks
-// @version 0.5.1
+// @version 0.6.0
 // @namespace    https://github.com/typographynerd/iitc-plugins
 // @downloadURL  https://github.com/typographynerd/iitc-plugins/raw/master/webhookraidbotpoicommand.user.js
 // @homepageURL  https://github.com/typographynerd/iitc-plugins
@@ -167,13 +167,16 @@ function wrapper(plugin_info) {
 
   window.plugin.SendToWebhook.addButton = function () {
     $(".linkdetails").append(
-      '<aside><a href="#" onclick="window.plugin.SendToWebhook.createPOICommand()">Create POI Command</a></aside><br>'
+      '<br><aside><a href="#" onclick="window.plugin.SendToWebhook.createPOICommand()">Create POI Command</a></aside><br>'
     );
     $(".linkdetails").append(
       '<aside><a href="#" onclick="window.plugin.SendToWebhook.convertToGymCommand()">Convert to Gym Command</a></aside><br>'
     );
     $(".linkdetails").append(
       '<aside><a href="#" onclick="window.plugin.SendToWebhook.markEXCommand()">Set Gym as EX Command</a></aside><br>'
+    );
+    $(".linkdetails").append(
+      '<aside><a href="#" onclick="window.plugin.SendToWebhook.getInfoCommand()">Get POI Info Command</a></aside><br>'
     );
   };
 
@@ -237,6 +240,30 @@ function wrapper(plugin_info) {
     sendCommandToWebhook(commandMessageText);
   }
 
+  window.plugin.SendToWebhook.getInfoCommand = function() {
+    if (settings.botType == "meowth") {
+      return;
+    }
+
+    const poiType = getPoiType();
+    if (poiType == "none") {
+        alert("Please mark this POI as either a stop or gym and try again");
+        return;
+    }
+
+    const portalData = window.portals[window.selectedPortal].options.data;
+    const commands = getCommands(portalData, false);
+
+    let commandMessageText = ""
+    if (poiType == "gym") {
+      commandMessageText = settings.botPrefix + commands.gym_info;
+    } else {
+      commandMessageText = settings.botPrefix + commands.stop_info;
+    }
+
+    sendCommandToWebhook(commandMessageText);
+  }
+
   const getCommands = function(portalData, prompt) {
     const { p_name, p_lat, p_lng } = getPortalData(portalData);
     let label = "";
@@ -250,7 +277,9 @@ function wrapper(plugin_info) {
           "gym_create": `loc add gym, ${p_name}, ${p_lat} , ${p_lng}, ${label}`,
           "gym_create_ex": `loc add gym, ${p_name}, ${p_lat} , ${p_lng}, ${label}, true`,
           "mark_ex": `loc extoggle ${p_name}`,
-          "convert_to_gym": `loc convert ${p_name}`
+          "convert_to_gym": `loc convert ${p_name}`,
+          "stop_info": `pokestop ${p_name}`,
+          "gym_info": `gym ${p_name}`
         },
       "meowth":
         {
@@ -258,7 +287,9 @@ function wrapper(plugin_info) {
           "gym_create": `addgym "${p_name}" ${p_lat} ${p_lng}`,
           "gym_create_ex": `addexraidgym "${p_name}" ${p_lat} ${p_lng}`,
           "mark_ex": ``,
-          "convert_to_gym": ``
+          "convert_to_gym": ``,
+          "stop_info": ``,
+          "gym_info": ``
         },
       "pokenav":
         {
@@ -266,7 +297,9 @@ function wrapper(plugin_info) {
           "gym_create": `create poi gym "${p_name}" ${p_lat} ${p_lng}`,
           "gym_create_ex": `create poi gym "${p_name}" ${p_lat} ${p_lng} "ex_eligible: 1"`,
           "mark_ex": `update poi ${label} "ex_eligible: 1"`,
-          "convert_to_gym": `update poi ${label} "type: gym"`
+          "convert_to_gym": `update poi ${label} "type: gym"`,
+          "stop_info": `si ${p_name}`,
+          "gym_info": `gi ${p_name}`
         }
     }
     return botCommandTemplates[settings.botType];
