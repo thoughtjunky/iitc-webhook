@@ -2,20 +2,13 @@
 // @id quickCopyPortalnameplus
 // @name IITC Plugin: Webhook Raid Bot POI Command
 // @category Tweaks
-// @version 0.6.5
+// @version 0.7.0
 // @namespace    https://github.com/typographynerd/iitc-plugins
 // @downloadURL  https://github.com/typographynerd/iitc-plugins/raw/master/webhookraidbotpoicommand.user.js
 // @homepageURL  https://github.com/typographynerd/iitc-plugins
 // @description Sends command to manage POIs to raid bot admin channel with one click
 // @author tehstone, typographynerd. forked from Forte and Sunkast
-// @include        https://*.ingress.com/intel*
-// @include        http://*.ingress.com/intel*
-// @match          https://*.ingress.com/intel*
-// @match          http://*.ingress.com/intel*
-// @include        https://*.ingress.com/mission/*
-// @include        http://*.ingress.com/mission/*
-// @match          https://*.ingress.com/mission/*
-// @match          http://*.ingress.com/mission/*
+// @include        https://intel.ingress.com/*
 // @match          https://intel.ingress.com/*
 // @grant          none
 // ==/UserScript==
@@ -361,15 +354,16 @@ function wrapper(plugin_info) {
     $(".copyNotification").fadeIn(400).delay(3000).fadeOut(400);
   }
 
-  // Add an info property for IITC's plugin system
-  setup.info = plugin_info;
-
-  // Make sure window.bootPlugins exists and is an array
-  if (!window.bootPlugins) window.bootPlugins = [];
-  // Add our startup hook
-  window.bootPlugins.push(setup);
-  // If IITC has already booted, immediately run the 'setup' function
-  if (window.iitcLoaded && typeof setup === "function") setup();
+  setup.info = plugin_info; //add the script info data to the function as a property
+  // if IITC has already booted, immediately run the 'setup' function
+  if (window.iitcLoaded) {
+    setup();
+  } else {
+    if (!window.bootPlugins) {
+      window.bootPlugins = [];
+    }
+    window.bootPlugins.push(setup);
+  }
 
   const defaultSettings = {
     botPrefix: "!",
@@ -404,27 +398,23 @@ function wrapper(plugin_info) {
   }
 }
 
-// Create a script element to hold our content script
-let script = document.createElement("script");
-let info = {};
-
-// GM_info is defined by the assorted monkey-themed browser extensions
-// and holds information parsed from the script header.
-if (typeof GM_info !== "undefined" && GM_info && GM_info.script) {
-  info.script = {
-    version: GM_info.script.version,
-    name: GM_info.script.name,
-    description: GM_info.script.description,
-  };
-}
-
-// Create a text node and our IIFE inside of it
-let textContent = document.createTextNode(
-  "(" + wrapper + ")(" + JSON.stringify(info) + ")"
-);
-// Add some content to the script element
-script.appendChild(textContent);
-// Finally, inject it... wherever.
-(document.body || document.head || document.documentElement).appendChild(
-  script
-);
+(function () {
+  const plugin_info = {};
+  if (typeof GM_info !== 'undefined' && GM_info && GM_info.script) {
+    plugin_info.script = {
+      version: GM_info.script.version,
+      name: GM_info.script.name,
+      description: GM_info.script.description
+    };
+  }
+  // Greasemonkey. It will be quite hard to debug
+  if (typeof unsafeWindow != 'undefined' || typeof GM_info == 'undefined' || GM_info.scriptHandler != 'Tampermonkey') {
+    // inject code into site context
+    const script = document.createElement('script');
+    script.appendChild(document.createTextNode('(' + wrapper + ')(' + JSON.stringify(plugin_info) + ');'));
+    (document.body || document.head || document.documentElement).appendChild(script);
+  } else {
+    // Tampermonkey, run code directly
+    wrapper(plugin_info);
+  }
+})();
