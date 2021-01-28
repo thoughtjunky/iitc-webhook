@@ -4,7 +4,7 @@
 // @category Tweaks
 // @version 0.9.1
 // @namespace    https://github.com/typographynerd/iitc-plugins
-// @downloadURL  https://github.com/typographynerd/iitc-plugins/raw/master/webhookraidbotpoicommand.user.js
+// @downloadURL  https://github.com/typographynerd/iitc-plugins/raw/update-poi/webhookraidbotpoicommand.user.js
 // @homepageURL  https://github.com/typographynerd/iitc-plugins
 // @description Sends command to manage POIs to raid bot admin channel with one click
 // @author tehstone, typographynerd. forked from Forte and Sunkast
