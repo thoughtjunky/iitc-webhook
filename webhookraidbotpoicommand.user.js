@@ -216,20 +216,6 @@ function wrapper(plugin_info) {
 
   };
 
-  window.plugin.SendToWebhook.convertToGymCommand = function () {
-    const portalData = window.portals[window.selectedPortal].options.data;
-    let prompt = false;
-    if (settings.botType == "pokenav") {
-      prompt = true;
-    }
-
-    const commands = getCommands(portalData, prompt);
-
-    const commandMessageText = settings.botPrefix + commands.convert_to_gym;
-
-    sendCommandToWebhook(commandMessageText);
-  };
-
   window.plugin.SendToWebhook.markEXCommand = function() {
     const portalData = window.portals[window.selectedPortal].options.data;
     let prompt = false;
