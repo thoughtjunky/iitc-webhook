@@ -2,7 +2,7 @@
 // @id quickCopyPortalnameplus
 // @name IITC Plugin: Webhook Raid Bot POI Command
 // @category Tweaks
-// @version 0.9.1
+// @version 0.9.2
 // @namespace    https://github.com/typographynerd/iitc-plugins
 // @downloadURL  https://github.com/typographynerd/iitc-plugins/raw/update-poi/webhookraidbotpoicommand.user.js
 // @homepageURL  https://github.com/typographynerd/iitc-plugins
