@@ -2,7 +2,7 @@
 // @id quickCopyPortalnameplus
 // @name IITC Plugin: Webhook Raid Bot POI Command
 // @category Tweaks
-// @version 0.9.2
+// @version 0.9.3
 // @namespace    https://github.com/typographynerd/iitc-plugins
 // @downloadURL  https://github.com/typographynerd/iitc-plugins/raw/master/webhookraidbotpoicommand.user.js
 // @homepageURL  https://github.com/typographynerd/iitc-plugins
@@ -171,6 +171,11 @@ function wrapper(plugin_info) {
     $(".linkdetails").append(
       '<br><aside><a href="#" onclick="window.plugin.SendToWebhook.createPOICommand()">Create POI Command</a></aside><br>'
     );
+    if (settings.botType == "kyogre") {
+      $(".linkdetails").append(
+        '<aside><a href="#" onclick="window.plugin.SendToWebhook.convertToGymCommand()">Convert to Gym Command</a></aside><br>'
+      );
+    }
     if (settings.botType != "meowth") {
       $(".linkdetails").append(
         '<aside><a href="#" onclick="window.plugin.SendToWebhook.markEXCommand()">Set Gym as EX Command</a></aside><br>'
@@ -219,6 +224,16 @@ function wrapper(plugin_info) {
 
   };
 
+  window.plugin.SendToWebhook.convertToGymCommand = function () {
+    const portalData = window.portals[window.selectedPortal].options.data;
+
+    const commands = getCommands(portalData, false);
+
+    const commandMessageText = settings.botPrefix + commands.convert_to_gym;
+
+    sendCommandToWebhook(commandMessageText);
+  };
+
   window.plugin.SendToWebhook.markEXCommand = function() {
     const portalData = window.portals[window.selectedPortal].options.data;
     let prompt = false;
@@ -241,22 +256,50 @@ function wrapper(plugin_info) {
     }
 
     const portalData = window.portals[window.selectedPortal].options.data;
-    let prompt = false;
+    let shouldPrompt = false;
     if (settings.botType == "pokenav") {
-      prompt = true;
+      shouldPrompt = true;
     }
 
-    const commands = getCommands(portalData, prompt);
-
     let commandMessageText = ""
-    if (poiType == "gym") {
-      const is_ex = document.getElementById("PogoGymEx");
-      commandMessageText = settings.botPrefix + commands.update_poi_gym;
-      if (is_ex && is_ex.checked) {
-          commandMessageText = settings.botPrefix + commands.update_poi_EXgym;
-      }
+    if (settings.botType == "kyogre") {
+      let promptResponse;
+      promptResponse = prompt('Do you want to update the "name" or the "location" of this POI?');
+      if (promptResponse && promptResponse == "name") {
+        promptResponse = prompt('What is the old name of this POI?');
+        if (promptResponse) {
+          let commands = getCommands(portalData, false, promptResponse);
+          if (poiType == "gym") {
+            commandMessageText = settings.botPrefix + commands.edit_gym_name;
+          } else {
+            commandMessageText = settings.botPrefix + commands.edit_stop_name;
+          }
+        } else {
+          window.plugin.dialog.message('Must provide the previous name for this POI.');
+          return;
+        }
+      } else if (promptResponse && promptResponse == "location") {
+        let commands = getCommands(portalData, shouldPrompt);
+        if (poiType == "gym") {
+          commandMessageText = settings.botPrefix + commands.edit_gym_location;
+        } else {
+          commandMessageText = settings.botPrefix + commands.edit_stop_location;
+        }
       } else {
-      commandMessageText = settings.botPrefix + commands.update_poi_stop;
+        window.plugin.dialog.message('Must choose either "name" or "location" as the update type.');
+        return;
+      }
+    } else {
+      let commands = getCommands(portalData, shouldPrompt);
+      if (poiType == "gym") {
+        const is_ex = document.getElementById("PogoGymEx");
+        commandMessageText = settings.botPrefix + commands.update_poi_gym;
+        if (is_ex && is_ex.checked) {
+            commandMessageText = settings.botPrefix + commands.update_poi_EXgym;
+        }
+        } else {
+        commandMessageText = settings.botPrefix + commands.update_poi_stop;
+      }
     }
 
     sendCommandToWebhook(commandMessageText);
@@ -296,7 +339,7 @@ function wrapper(plugin_info) {
     myWindow.location.href = commandMessageText
   }
 
-  const getCommands = function(portalData, prompt) {
+  const getCommands = function(portalData, prompt, old_name) {
     const { p_name, p_lat, p_lng } = getPortalData(portalData);
     let label = "";
     if (prompt) {
@@ -311,7 +354,11 @@ function wrapper(plugin_info) {
           "mark_ex": `loc extoggle ${p_name}`,
           "convert_to_gym": `loc convert ${p_name}`,
           "stop_info": `pokestop ${p_name}`,
-          "gym_info": `gym ${p_name}`
+          "gym_info": `gym ${p_name}`,
+          "edit_stop_name": `loc edit stop, ${old_name}, name, ${p_name}`,
+          "edit_stop_location": `loc edit stop, ${p_name}, location, ${p_lat}, ${p_lng}`,
+          "edit_gym_name": `loc edit gym, ${old_name}, name, ${p_name}`,
+          "edit_gym_location": `loc edit gym, ${p_name}, location, ${p_lat}, ${p_lng}`
         },
       "meowth":
         {
@@ -390,7 +437,8 @@ function wrapper(plugin_info) {
     request.send(JSON.stringify(params));
     $(".webhookNotification").fadeIn(400).delay(3000).fadeOut(400);
 
-    if (settings.webhookUrlAlt.length > 0) {
+
+    if (settings.webhookUrlAlt != null && settings.webhookUrlAlt.length > 0) {
       request = new XMLHttpRequest();
       request.open("POST", settings.webhookUrlAlt);
       request.setRequestHeader("Content-type", "application/json");
