@@ -369,8 +369,7 @@ function wrapper(plugin_info) {
           "stop_info": `whereis ${p_name}`,
           "gym_info": `whereis ${p_name}`
         },
-
-"pokenav":
+      "pokenav":
         {
           "stop_create": `/mod-poi poi create name:${p_name} latitude:${p_lat} longitude:${p_lng} poi_type:pokestop`,
           "gym_create": `/mod-poi poi create name:${p_name} latitude:${p_lat} longitude:${p_lng} poi_type:gym`,
