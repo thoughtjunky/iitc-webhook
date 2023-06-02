@@ -95,8 +95,7 @@ function wrapper(plugin_info) {
 
   thisPlugin.showSettingsDialog = function () {
     const html =
-              `<p><label for="textBotPrefix">Bot Command Prefix</label><br><input type="text" id="textBotPrefix" size="10" /></p>
-               <p><label for="textBotName">Bot Display Name</label><br><input type="text" id="textBotName" size="20" /></p>
+              `<p><label for="textBotName">Bot Display Name</label><br><input type="text" id="textBotName" size="20" /></p>
                <p><label for="textWebhookUrl">Webhook URL</label><br><input type="text" id="textWebhookUrl" size="40" /></p>
                <p><label for="textWebhookUrlAlt">2nd Webhook URL (optional)</label><br><input type="text" id="textWebhookUrlAlt" size="40" /></p>
                <p><label for="textAvatarUrl">Avatar URL</label><br><input type="text" id="textAvatarUrl" size="40" /></p>
@@ -370,16 +369,18 @@ function wrapper(plugin_info) {
           "stop_info": `whereis ${p_name}`,
           "gym_info": `whereis ${p_name}`
         },
-      "pokenav":
+      Okay, I'll remove the quotes around p_name. Here is the updated code:
+
+"pokenav":
         {
-          "stop_create": `create poi pokestop "${p_name}" ${p_lat} ${p_lng}`,
-          "gym_create": `create poi gym "${p_name}" ${p_lat} ${p_lng}`,
-          "gym_create_ex": `create poi gym "${p_name}" ${p_lat} ${p_lng} "ex_eligible: 1"`,
-          "mark_ex": `update poi ${label} "ex_eligible: 1"`,
-          "convert_to_gym": `update poi ${label} "type: gym"`,
-          "update_poi_gym": `update poi ${label} "name: ${p_name}" "latitude: ${p_lat}" "longitude: ${p_lng}" "type: gym" "ex_eligible: 0"`,
-          "update_poi_EXgym": `update poi ${label} "name: ${p_name}" "latitude: ${p_lat}" "longitude: ${p_lng}" "type: gym" "ex_eligible: 1"`,
-          "update_poi_stop": `update poi ${label} "name: ${p_name}" "latitude: ${p_lat}" "longitude: ${p_lng}" "type: pokestop"`,
+          "stop_create": `/mod-poi poi create name:${p_name} latitude:${p_lat} longitude:${p_lng} poi_type:pokestop`,
+          "gym_create": `/mod-poi poi create name:${p_name} latitude:${p_lat} longitude:${p_lng} poi_type:gym`,
+          "gym_create_ex": `/mod-poi poi create name:${p_name} latitude:${p_lat} longitude:${p_lng} poi_type:gym ex_eligible:True`,
+          "mark_ex": `/mod-poi poi update poi_id:${label} poi_type:gym ex_eligible:True`,
+          "convert_to_gym": `/mod-poi poi update poi_id:${label} poi_type:gym`,
+          "update_poi_gym": `/mod-poi poi update poi_id:${label} name:${p_name} latitude:${p_lat} longitude:${p_lng} poi_type:gym ex_eligible:False`,
+          "update_poi_EXgym": `/mod-poi poi update poi_id:${label} name:${p_name} latitude:${p_lat} longitude:${p_lng} poi_type:gym ex_eligible:True`,
+          "update_poi_stop": `/mod-poi poi update poi_id:${label} name:${p_name} latitude:${p_lat} longitude:${p_lng} poi_type:pokestop`,
           "stop_info": `si ${p_name}`,
           "gym_info": `gi ${p_name}`,
           "poi_url": `https://pgmap.org/map.html?center=${p_lat},${p_lng}&zoom=18&map=OpenStreetMap&show=1111`
