@@ -369,7 +369,6 @@ function wrapper(plugin_info) {
           "stop_info": `whereis ${p_name}`,
           "gym_info": `whereis ${p_name}`
         },
-      Okay, I'll remove the quotes around p_name. Here is the updated code:
 
 "pokenav":
         {
