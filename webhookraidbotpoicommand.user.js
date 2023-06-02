@@ -118,13 +118,6 @@ function wrapper(plugin_info) {
 
     const div = container[0];
 
-    const textBotPrefixStr = div.querySelector("#textBotPrefix");
-    textBotPrefixStr.value = settings.botPrefix;
-    textBotPrefixStr.addEventListener("change", (e) => {
-      settings.botPrefix = textBotPrefixStr.value;
-      saveSettings();
-    });
-
     const textWebhookUrlStr = div.querySelector("#textWebhookUrl");
     textWebhookUrlStr.value = settings.webhookUrl;
 
@@ -216,9 +209,9 @@ function wrapper(plugin_info) {
     }
 
     if (settings.botType == "meowth") {
-      copyCommandToClipboard(settings.botPrefix + commandMessageText);
+      copyCommandToClipboard(commandMessageText);
     } else {
-      sendCommandToWebhook(settings.botPrefix + commandMessageText);
+      sendCommandToWebhook(commandMessageText);
     }
 
   };
@@ -228,7 +221,7 @@ function wrapper(plugin_info) {
 
     const commands = getCommands(portalData, false);
 
-    const commandMessageText = settings.botPrefix + commands.convert_to_gym;
+    const commandMessageText = commands.convert_to_gym;
 
     sendCommandToWebhook(commandMessageText);
   };
@@ -242,7 +235,7 @@ function wrapper(plugin_info) {
 
     const commands = getCommands(portalData, prompt);
 
-    const commandMessageText = settings.botPrefix + commands.mark_ex;
+    const commandMessageText = commands.mark_ex;
 
     sendCommandToWebhook(commandMessageText);
   }
@@ -269,9 +262,9 @@ function wrapper(plugin_info) {
         if (promptResponse) {
           let commands = getCommands(portalData, false, promptResponse);
           if (poiType == "gym") {
-            commandMessageText = settings.botPrefix + commands.edit_gym_name;
+            commandMessageText = commands.edit_gym_name;
           } else {
-            commandMessageText = settings.botPrefix + commands.edit_stop_name;
+            commandMessageText = commands.edit_stop_name;
           }
         } else {
           window.plugin.dialog.message('Must provide the previous name for this POI.');
@@ -280,9 +273,9 @@ function wrapper(plugin_info) {
       } else if (promptResponse && promptResponse == "location") {
         let commands = getCommands(portalData, shouldPrompt);
         if (poiType == "gym") {
-          commandMessageText = settings.botPrefix + commands.edit_gym_location;
+          commandMessageText = commands.edit_gym_location;
         } else {
-          commandMessageText = settings.botPrefix + commands.edit_stop_location;
+          commandMessageText = commands.edit_stop_location;
         }
       } else {
         window.plugin.dialog.message('Must choose either "name" or "location" as the update type.');
@@ -292,12 +285,12 @@ function wrapper(plugin_info) {
       let commands = getCommands(portalData, shouldPrompt);
       if (poiType == "gym") {
         const is_ex = document.getElementById("PogoGymEx");
-        commandMessageText = settings.botPrefix + commands.update_poi_gym;
+        commandMessageText = commands.update_poi_gym;
         if (is_ex && is_ex.checked) {
-            commandMessageText = settings.botPrefix + commands.update_poi_EXgym;
+            commandMessageText = commands.update_poi_EXgym;
         }
         } else {
-        commandMessageText = settings.botPrefix + commands.update_poi_stop;
+        commandMessageText = commands.update_poi_stop;
       }
     }
 
@@ -316,9 +309,9 @@ function wrapper(plugin_info) {
 
     let commandMessageText = ""
     if (poiType == "gym") {
-      commandMessageText = settings.botPrefix + commands.gym_info;
+      commandMessageText = commands.gym_info;
     } else {
-      commandMessageText = settings.botPrefix + commands.stop_info;
+      commandMessageText = commands.stop_info;
     }
 
     sendCommandToWebhook(commandMessageText);
@@ -465,7 +458,6 @@ function wrapper(plugin_info) {
   }
 
   const defaultSettings = {
-    botPrefix: "!",
     webhookUrl: "",
     webhookUrlAlt: "",
     botName: "IngressMapper",
@@ -488,9 +480,6 @@ function wrapper(plugin_info) {
       settings = JSON.parse(tmp);
     } catch (e) {
       // eslint-disable-line no-empty
-    }
-    if (!settings.botPrefix) {
-      settings.botPrefix = "!";
     }
     if (!settings.botType) {
       settings.botType = "pokenav";
